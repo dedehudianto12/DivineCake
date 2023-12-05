@@ -1,7 +1,11 @@
 'use strict';
 
+const bcrypt = require("../helper/bcrypt")
+
 module.exports = (sequelize, DataTypes) => {
+  const Model = sequelize.Sequelize.Model
   class User extends Model {}
+
   User.init({
     nickname: {
       type: DataTypes.STRING, 
@@ -20,16 +24,19 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: {
+        args: true,
+        msg: 'Email address already in use!',
+      },
       validate: {
-        notEmpty: { args: true, msg: 'email is required' },
-        checkUnique(data) {
-          return User.findOne({ where: { email: data } })
-            .then(user => {
-              if (user) {
-                throw new Error('Email address already in use!')
-              }
-            })
-        }
+        notEmpty: {
+          args: true,
+          msg: 'Email is required',
+        },
+        isEmail: {
+          args: true,
+          msg: 'Invalid email address',
+        },
       }
     },
     password: {
@@ -60,6 +67,13 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
+    hooks: {
+      beforeCreate: (user, options) => {
+        let pass = user.password
+        let new_pass = bcrypt.generate_password(pass)
+        user.password = new_pass
+      }
+    }
   });
   return User;
 };
