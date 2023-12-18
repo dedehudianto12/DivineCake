@@ -4,9 +4,9 @@ const bcrypt = require("../helper/bcrypt")
 
 module.exports = (sequelize, DataTypes) => {
   const Model = sequelize.Sequelize.Model
-  class User extends Model {}
+  class Admin extends Model {}
 
-  User.init({
+  Admin.init({
     nickname: {
       type: DataTypes.STRING, 
       allowNull: false,
@@ -45,31 +45,17 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: { args: true, msg: 'password is required' }
       }
-    },
-    phone_number: {
-      type:DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {args: true, msg: "full_name is requred"}
-      }
-    },
-    address: {
-      type:DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {args: true, msg: "full_name is requred"}
-      }
-    },
+    }
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'Admin',
     hooks: {
-      beforeCreate: (user, options) => {
-        let pass = user.password
+      beforeCreate: (admin, options) => {
+        let pass = admin.password
         let new_pass = bcrypt.generate_password(pass)
-        user.password = new_pass
+        admin.password = new_pass
       }
     }
   });
-  return User;
+  return Admin;
 };
