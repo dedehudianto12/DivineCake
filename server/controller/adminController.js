@@ -21,6 +21,42 @@ class AdminController{
             .catch(next)
         
     }
+
+    static upload(req, res, next){
+        try {
+            if (!req.file) {
+              return res.status(400).json({ message: 'No file uploaded.' });
+            }
+        
+            const file = bucket.file(req.file.originalname);
+        
+            const stream = file.createWriteStream({
+              metadata: {
+                contentType: req.file.mimetype,
+              },
+            });
+        
+            stream.on('error', (err) => {
+              next(err);
+            });
+        
+            stream.on('finish', async () => {
+              // Set the file to be publicly readable
+              await file.makePublic();
+        
+              // Get the public URL of the uploaded file
+              const imageUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`;
+        
+              // Save the imageUrl in your database
+        
+              res.json({ message: 'File uploaded successfully.', imageUrl });
+            });
+        
+            stream.end(req.file.buffer);
+          } catch (err) {
+            next(err);
+          }
+    }
 }
 
 module.exports = AdminController

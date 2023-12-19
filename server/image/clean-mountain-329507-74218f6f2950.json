@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "clean-mountain-329507",
+  "private_key_id": "74218f6f2950cd0fbc55da524c8e0ebc9f92f7c3",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDTMJ+SmXVTUEGN\nQl4SdUslEBbRUgHWrOI9qjHEYtP4ZeVQTq04Vv7F79KbbSe8gLqnuRnFi/9snVMI\nX+0pqlSb8MejtgOviKrA44CKhcqT/zMuwWk9tOD7IwM+53pA12txBCd6ofOIjApH\n4m/MYesiesOI7aHwNz13c0MvYl7w0HiQ5/LyqgVCEbGHBAs6++DuJPMwGRC0NEQq\nw/ksAT/X11W7/pHVS1V2ObTkHhLa260keR8xX+/PGluad3tiqeiZKEbk74CJkpc4\nr5ojiIdVGXdnkizeBA1iHRIqcyWWg66yL4rO09VaBwnpeTLQba8FZXV525ay9vHU\n5LLDPlE1AgMBAAECggEAHT5nalJrp6y+VwQwqJerXyd6MWQMsyBfd7CAkbQprATY\nGyW54MpTHy+VV0ZnMTgWILGF+w/mv7CNVeSKn7FhY/KUgnvqyLzBAFLAcu4R3iqB\neOD5ZL0ORlhT07sT97ScwRqVKOsSIP9bURbu6jtI5w5e0zAss2nCzi6cyAv0H55N\n9nrG9uOvCTHYOqGXwJopUMaP92f3FVJxdSvaQONzTDfAYXZD2hP0HOD9YcBx/L17\nO7uQBHNvl+S5Sqd1xC09zVhxuC6pwUXXyqwoD3RjT4NvyO+ylcRVy1gIrXrDF+5k\nK0+PdLHznUgh1V4Q6D0YFLI3Q3n23SLlGgxzaPCrAQKBgQD5S4nJfawB/5ZyAcKO\nS9t5ynnTVdhAI4CRrnxz8+ybK5KahyJZZmwonMR85U3IHZyH1nJfBgCAxQrn4049\nz93o7OYXSfLRxLUWPBrxWWXiXxkwOJV+WJH9KpVSV5wu/EXDYZnLDGohtN/hzZxJ\nDk16GxunJrmE0ZWW1Qy9TIBg9QKBgQDY3rilIuJ7hQfcICFYw6FSb3hwgQdlFFcX\nkgxadgIwZz0gRk254E6gATruSqUyBcm1/A5C62GTj6amJKYOG3iVj5dDebBvPkoq\nHY8U16nGHBdCoZ3FTSRUqXHNQ9WCKbN2/N3/9OykESVDbfu1woVM0H8fb3LohcqR\n1wmJuKMHQQKBgEACCCfG77I3qK4vC4Azs++KcEs14GdfdjRxg5zWBWs1/ddVWRlx\nNdYbokubKKR4DefGxOjnBpwJe6pcb4tpYsXahZ13LDR1+DT0S8qqNIGx/yqlbKTb\nIujI1TwmKIDb3yGyXqWG031CDrXQcA9F79ipOyloxPt4QJtQqou0J8Y9AoGACrVU\noLLMRBUZgkED5IIkYRGn/MYiO1d5xWwst/rDuOggGIvgIqF0wGnPIx0EcyfeAeJk\nQeGle8fIDsQYfvHUTm48pdRIZfXJa7Lx8bGEbIfOjje0tp1MgfGr8Nq8nCS6+9EY\nlR7e4GsIUAAKQbtNIbHZ1Q+HuPuCORlJG0fGpQECgYEAlCdRFBlYltTbgVIUOzbh\ny5ukU3czOllKZNaSUOz0OW5htCag3QqMNtx6/+Xjzs+AXnZ2CaVefFJWznSpQE9e\nyzECTWJhZAnsSaKzrnHst8dKykS0Ufi4n4a0jD7EziXIjhlDWsvA7Sq2uCS/J2JJ\nXn/gJr9NjkHa4opf06vFx+M=\n-----END PRIVATE KEY-----\n",
+  "client_email": "divinecake@clean-mountain-329507.iam.gserviceaccount.com",
+  "client_id": "104617144527315575902",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/divinecake%40clean-mountain-329507.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
