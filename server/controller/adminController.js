@@ -1,6 +1,7 @@
 "use strict"
 
 const {Admin} = require("../models")
+const token = require("../helper/token")
 
 class AdminController{
     static create(req, res, next){
