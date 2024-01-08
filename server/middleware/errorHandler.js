@@ -15,6 +15,9 @@ function errorHandler(err, req, res, next) {
     else if (err.name === 'not found') {
         res.status(404).json(err.message)
     }
+    else if (err.name === "forbidden"){
+        res.status(403).json(err.message)
+    }
     else {
         res.status(500).json(err.message)
     }

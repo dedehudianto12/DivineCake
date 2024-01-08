@@ -44,9 +44,8 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'Product',
   });
 
-  // Define associations if needed, for example:
+  
   Product.associate = (models) => {
-    // A Product belongs to a Category
     Product.belongsTo(models.Category, { foreignKey: 'category_id' });
   };
 

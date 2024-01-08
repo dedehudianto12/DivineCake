@@ -1,6 +1,5 @@
 "use strict"
 
-
 const {User} = require("../models")
 const token = require('../helper/token')
 const {check_password} = require("../helper/bcrypt")
@@ -47,6 +46,7 @@ class UserController{
             })
             .catch(next)
     }
+
 }
 
 module.exports = UserController

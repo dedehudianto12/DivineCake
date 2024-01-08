@@ -4,7 +4,7 @@
 const multer = require('multer');
 const { Storage } = require('@google-cloud/storage');
 const storage = new Storage({
-  keyFilename: "../image/clean-mountain-329507-74218f6f2950.json",
+  keyFilename: "../image/divinecake.json",
 });
 
 const bucket = storage.bucket('divinecake');

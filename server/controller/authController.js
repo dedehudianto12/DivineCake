@@ -1,14 +1,13 @@
-"use strict";
+'use strict';
 
-// controllers/AuthController.js
 const { User, Admin } = require('../models');
-const { generate_token } = require('../helper/token'); // Import your token generation module
-const { check_password } = require('../helper/bcrypt'); // Import your password check module
+const { generate_token } = require('../helper/token');
+const { check_password } = require('../helper/bcrypt');
 
 class AuthController {
   static async login(req, res, next) {
     const { email, password } = req.body;
-
+    console.log(req.body)
     try {
       const user = await User.findOne({ where: { email } });
 
@@ -41,7 +40,5 @@ class AuthController {
     }
   }
 }
-
-  // Other authentication-related actions...
 
 module.exports = AuthController;
