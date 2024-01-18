@@ -1,6 +1,6 @@
 "use strict"
 
-const {User, Cart, Admin} = require("../models")
+const {User, Cart, Admin, Review} = require("../models")
 const {check_token} = require("../helper/token")
 
 function authenticate(req, res, next){
@@ -80,9 +80,37 @@ function authorizeCart(req, res, next){
     }
 }
 
+function authorizeReview(req, res, next){
+    try{
+        const reviewId = req.params.id
+        const userId = req.userId
+
+        Review.findOne({
+            where: {
+                id: cartId,
+                user_id: userId
+            }
+        })
+            .then((review)=>{
+                if(!review){
+                    return res.status(403).json({
+                        message: "Unauthorized - Access denied" 
+                    })
+                }else{
+                    req.reviewId = review.id
+                    next()
+                }
+            })
+    }
+    catch(err){
+        next
+    }
+}
+
 module.exports = {
     authenticate,
     authorizeCart,
+    authorizeReview,
     authenticateAdmin
 }
 

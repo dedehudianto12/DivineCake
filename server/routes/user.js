@@ -5,7 +5,8 @@ const user_controller = require('../controller/userController')
 const product_controller = require('../controller/productController')
 const cart_controller = require("../controller/cartController")
 const transaction_controller = require("../controller/transactionController")
-const {authenticate, authorizeCart} = require("..//middleware/auth")
+const review_controller = require("../controller/reviewController")
+const {authenticate, authorizeCart, authorizeReview} = require("..//middleware/auth")
 const { route } = require('./admin')
 const router = express.Router()
 
@@ -26,6 +27,16 @@ router.use("/cart/:id", authorizeCart)
 router.delete("/cart/:id", cart_controller.delete)
 
 router.patch("/cart/:id", cart_controller.update)
+
+router.post("/review", review_controller.create)
+
+router.get("/review/:id", review_controller.find_by_product)
+
+router.use("/review/:id", authorizeReview)
+
+router.patch("/review/:id", review_controller.update)
+
+router.delete("/review/:id", review_controller.destroy)
 
 router.post("/transaction", transaction_controller.create)
 
