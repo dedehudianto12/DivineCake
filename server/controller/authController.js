@@ -12,7 +12,7 @@ class AuthController {
       const user = await User.findOne({ where: { email } });
 
       if (user && (await check_password(password, user.password))) {
-        const user_token = generate_token(user);
+        const user_token = generate_token(user, "user");
         return res.status(201).json({
           message: 'Success Login',
           access_token: user_token,
@@ -22,7 +22,7 @@ class AuthController {
       } else if (!user) {
         const admin = await Admin.findOne({ where: { email } });
         if (admin && (await check_password(password, admin.password))) {
-          const admin_token = generate_token(admin);
+          const admin_token = generate_token(admin, "admin");
           return res.status(201).json({
             message: 'Success Login',
             access_token: admin_token,

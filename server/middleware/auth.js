@@ -1,20 +1,52 @@
 "use strict"
 
-const {User, Cart} = require("../models")
+const {User, Cart, Admin} = require("../models")
 const {check_token} = require("../helper/token")
 
 function authenticate(req, res, next){
     try{
         const token = check_token(req.headers.access_token)
-        User.findByPk(token.id)
-            .then(user=>{
-                if(!user){
-                    next({message: "User not found"})
-                }else{
-                    req.userId = token.id
-                    next()
-                }
+        if (token.type === "user"){
+            User.findByPk(token.id)
+                .then(user=>{
+                    if(!user){
+                        next({message: "User not found"})
+                    }else{
+                        req.userId = token.id
+                        next()
+                    }
+                })
+        }else{
+            next({
+                name: "Forbidden",
+                message: "You are not authorize"
             })
+        }
+    }
+    catch(err){
+        next(err)
+    }
+}
+
+function authenticateAdmin(req, res, next){
+    try{
+        const token = check_token(req.headers.access_token)
+        if (token.type === "admin"){
+            Admin.findByPk(token.id)
+                .then((admin)=>{
+                    if(!admin){
+                        next({message: "Admin not found"})
+                    }else{
+                        req.adminId = token.id
+                        next()
+                    }
+                })
+        }else{
+            next({
+                name: "Forbidden",
+                message: "You are not authorize"
+            })
+        }
     }
     catch(err){
         next(err)
@@ -50,6 +82,7 @@ function authorizeCart(req, res, next){
 
 module.exports = {
     authenticate,
-    authorizeCart
+    authorizeCart,
+    authenticateAdmin
 }
 

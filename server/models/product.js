@@ -23,6 +23,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING, // You might want to use a different data type depending on how you store images
       allowNull: true, // Adjust this based on your requirements
     },
+    price: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      defaultValue: 0,
+      validate: {
+        isFloat: true,
+        min: 0, // Adjust the minimum price as needed
+      },
+    },
     stock: {
       type: DataTypes.INTEGER,
       allowNull: false,

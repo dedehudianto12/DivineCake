@@ -2,8 +2,8 @@
 
 const jwt = require('jsonwebtoken')
 
-function generate_token(user){
-    const token = jwt.sign({id: user.id, email:user.email}, process.env.JWT_SECRET)
+function generate_token(user, type){
+    const token = jwt.sign({id: user.id, email:user.email, type: type}, process.env.JWT_SECRET)
     return token
 }
 
