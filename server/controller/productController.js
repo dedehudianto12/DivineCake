@@ -5,18 +5,22 @@ const {Product} = require("../models")
 class ProductController{
     static create(req, res, next){
         const imageUrl = req.imageUrl;
+        console.log("hehehe")
         const product = {
             name : req.body.name,
             description: req.body.description,
             image: imageUrl,
             stock: req.body.stock,
+            price: req.body.price,
             category_id: req.body.category_id
         }
         
         Product.create(product)
-            .then(admin=>{
+            .then((product)=>{
+                console.log(product)
                 res.status(201).json({
-                    message: "Succesfully create a product"
+                    message: "Succesfully create a product",
+                    payload: product.dataValues
                 })
             })
             .catch(next)
@@ -55,14 +59,18 @@ class ProductController{
             updated_product_data['image'] = req.imageUrl
         }
         Product.update(updated_product_data, {
-            where: {id: product_id}
+            where: {id: product_id},
+            returning: true,
+            plain: true
         })
-            .then(([affected_row])=>{
-                if (!affected_row){
+            .then((result)=>{
+                if (!result){
                     return res.status(404).send("Product not found")
                 }
+                console.log(result[1].dataValues)
                 res.status(200).json({
-                    message: "Product updated successfully"
+                    message: "Product updated successfully",
+                    payload: result[1].dataValues
                 })
             })
             .catch(next) 

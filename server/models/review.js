@@ -22,11 +22,11 @@ module.exports = (sequelize, DataTypes)=>{
             }
         },
         rating: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.FLOAT,
             allowNull: false,
             validate: {
-                notEmpty: {args: true, msg: "Product ID is required"},
-                isInt: {args: true, msg: "Product ID must be an integer"}
+                notEmpty: {args: true, msg: "Rating is required"},
+                isFloat: {args: true, msg: "Rating must be a float"}
             }
         },
         review: {

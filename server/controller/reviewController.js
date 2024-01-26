@@ -25,7 +25,11 @@ class ReviewController{
 
     static update(req, res, next){
         const review_id = req.params.id 
-        const updated_review_data = req.body
+        const updated_review_data = {
+            rating: parseFloat(req.body.rating),
+            review: req.body.review
+        }
+        
         Review.update(updated_review_data, {
             where: {id: review_id}
         })

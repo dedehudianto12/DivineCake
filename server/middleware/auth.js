@@ -87,7 +87,7 @@ function authorizeReview(req, res, next){
 
         Review.findOne({
             where: {
-                id: cartId,
+                id: reviewId,
                 user_id: userId
             }
         })

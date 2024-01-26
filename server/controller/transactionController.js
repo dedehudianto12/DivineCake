@@ -1,6 +1,6 @@
 "use strict"
 
-const {Transaction, TransactionItem, Product, Cart} = require("../models")
+const {User, Transaction, TransactionItem, Product, Cart} = require("../models")
 
 class TransactionController{
 
@@ -20,7 +20,6 @@ class TransactionController{
                 include: [{ model: Product }]
               });
             
-            console.log(cartItems)
             const transactionItems = cartItems.map((cartItem) => ({
                 transactionId: transaction.id,
                 productId: cartItem.Product.id,
@@ -66,11 +65,11 @@ class TransactionController{
                     }
     
                     return TransactionItem.create({
-                    transactionId: transaction.id,
-                    productId,
-                    quantity,
-                    unitPrice: product.price, 
-                    subtotal: quantity * product.price,
+                        transactionId: transaction.id,
+                        productId,
+                        quantity,
+                        unitPrice: product.price, 
+                        subtotal: quantity * product.price,
                     });
                 })
             )
@@ -88,21 +87,40 @@ class TransactionController{
         }
     }
 
-    static find_all(req, res, next){
-        Transaction.findAll()
-            .then((transactions)=>{
-                if(!transactions){
-                    return res.status(404).json({ message: "Transactions not found" });
-                }
-                res.status(200).json({
-                    message: "Success fetch a cart",
-                    payload: transactions,
-                  });
-            })
-            .catch((error) => {
-                next(error);
-              });
-    }
+    static find_all(req, res, next) {
+        Transaction.findAll({
+          include: [
+            {
+              model: User,
+              attributes: ['id', 'nickname', 'email'], // Include only the desired user attributes
+            },
+            {
+              model: TransactionItem,
+              as: 'items',
+              attributes: ['quantity', 'unitPrice', 'subtotal'],
+              include: [
+                {
+                  model: Product,
+                  attributes: ['id', 'name', 'price'], // Include only the desired product attributes
+                },
+              ],
+            },
+          ],
+        })
+          .then((transactions) => {
+            if (!transactions) {
+              return res.status(404).json({ message: 'Transactions not found' });
+            }
+            res.status(200).json({
+              message: 'Success fetch transactions',
+              payload: transactions,
+            });
+          })
+          .catch((error) => {
+            next(error);
+          });
+      }
+      
 
     static delete(req, res, next){
         const transaction_id = req.params.id
@@ -120,22 +138,69 @@ class TransactionController{
             .catch(next)
     }
 
-    static update_status(req, res, next){
-        const transaction_id = req.params.id
-        const updated_transaction_data = req.body
-        Transaction.update(updated_transaction_data, {
-            where: {id: transaction_id}
-        })
-            .then(([affected_row])=>{
-                if (!affected_row){
-                    return res.status(404).send("Transaction not found")
-                }
-                res.status(200).json({
-                    message: "Transaction updated successfully"
-                })
-            })
-            .catch(next)
-    }
+
+    static update_status = async (req, res, next) => {
+      try {
+        const transactionId = req.params.id;
+        const updatedTransactionData = req.body;
+    
+        const transaction = await Transaction.findByPk(transactionId, {
+          include: [{
+            model: TransactionItem,
+            as: 'items',
+            include: Product,
+          }],
+        });
+    
+        if (!transaction) {
+          return res.status(404).send("Transaction not found");
+        }
+    
+        const currentStatus = transaction.status;
+        const newStatus = updatedTransactionData.status;
+    
+        const [affectedRows, [updatedTransaction]] = await Transaction.update(updatedTransactionData, {
+          where: { id: transactionId },
+          returning: true,
+        });
+    
+        if (!affectedRows) {
+          return res.status(404).send("Transaction not found");
+        }
+    
+        if (currentStatus === 'pending' && newStatus === 'processing') {
+          const updatePromises = transaction.items.map(async (item) => {
+            const productId = item.Product.id;
+            const newQuantity = item.Product.dataValues.stock - item.quantity;
+    
+            const [affectedProductRows, [updatedProduct]] = await Product.update(
+              { stock: newQuantity },
+              { where: { id: productId }, returning: true }
+            );
+    
+            return updatedProduct;
+          });
+    
+          const updatedProducts = await Promise.all(updatePromises);
+    
+          return res.status(200).json({
+            message: "Transaction updated successfully",
+            updatedTransaction,
+            updatedProducts,
+          });
+        }
+    
+        return res.status(200).json({
+          message: "Transaction updated successfully",
+          updatedTransaction,
+        });
+      } catch (error) {
+        next(error);
+      }
+    };
+    
+    
+
         
 }
 

@@ -31,8 +31,8 @@ class CartController{
             })
             .then((createdCart) => {
                 res.status(201).json({
-                message: "Successfully added item to cart",
-                cart: createdCart,
+                  message: "Successfully added item to cart",
+                  cart: createdCart,
                 });
             })
             .catch((error) => {
@@ -43,13 +43,13 @@ class CartController{
 
     static find_cart(req, res, next) {
         Cart.findAll({where: {user_id: req.userId}})
-          .then((cart) => {
-            if (!cart) {
+          .then((carts) => {
+            if (!carts) {
               return res.status(404).json({ message: "Cart not found" });
             }
             res.status(200).json({
               message: "Success fetch a cart",
-              payload: cart,
+              payload: carts,
             });
           })
           .catch((error) => {
