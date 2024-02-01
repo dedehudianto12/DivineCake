@@ -26,10 +26,7 @@ const AdminProductPage = () =>{
 
     return (
       <View>
-        <Text className="text-center text-lg font-bold">
-          Product
-        </Text>
-        <Button  title="Create Product" onPress={() => navigation.navigate("AddProduct")} />
+        <Button className="items-center" title="Create Product" onPress={() => navigation.navigate("AddProduct")} />
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

@@ -96,7 +96,6 @@ export const fetchProductsAsync = createAsyncThunk(
       try{
         const token = await AsyncStorage.getItem('token') 
         const userType = await AsyncStorage.getItem("userType")
-        console.log("masuk", userType)
         const response = await axios.get(`http://192.168.0.104:3000/${userType}s/product`, {headers: {access_token: token}});
         return response.data;
       }catch(error){

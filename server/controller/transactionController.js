@@ -11,7 +11,7 @@ class TransactionController{
                 orderDate: new Date(),
                 deliveryDate: req.body.deliveryDate,
                 status: "pending",
-                paymentMethod: req.body.paymentMethod
+                paymentMethod: "transfer"
             }
 
             const transaction = await Transaction.create(body);
@@ -31,6 +31,10 @@ class TransactionController{
             await TransactionItem.bulkCreate(transactionItems);
 
             await Cart.destroy({ where: { user_id: req.userId } });
+
+            const totalAmount = transactionItems.reduce((total, item) => total + item.subtotal, 0);
+
+            await transaction.update({ totalAmount });
 
             res.status(200).json({ message: 'Checkout successful', transaction });
             
@@ -85,6 +89,43 @@ class TransactionController{
         }catch(error){
             return next(error)
         }
+    }
+
+    static find_by_user(req, res, next) {
+      const userId = req.userId;
+    
+      Transaction.findAll({
+        where: { userId: userId }, // Add a where condition to filter by user ID
+        include: [
+          {
+            model: User,
+            attributes: ['id', 'nickname', 'email'],
+          },
+          {
+            model: TransactionItem,
+            as: 'items',
+            attributes: ['quantity', 'unitPrice', 'subtotal'],
+            include: [
+              {
+                model: Product,
+                attributes: ['id', 'name', 'price'],
+              },
+            ],
+          },
+        ],
+      })
+        .then((transactions) => {
+          if (!transactions) {
+            return res.status(404).json({ message: 'Transactions not found' });
+          }
+          res.status(200).json({
+            message: 'Success fetch transactions',
+            payload: transactions,
+          });
+        })
+        .catch((error) => {
+          next(error);
+        });
     }
 
     static find_all(req, res, next) {

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Button, Image } from "react-native";
+import { View, Text, Button, Image, Alert } from "react-native";
 import { useDispatch } from "react-redux";
 import { deleteProductAsync } from "../src/productSlice";
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createCartsAsync } from "../src/cartSlice";
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
@@ -23,17 +24,31 @@ const ProductCard = ({ product }) => {
     navigation.navigate("UpdateProduct", { product });
   };
 
+  const addCart = async () => {
+    try{
+      const createdCart = await dispatch(createCartsAsync({product_id:product.id, quantity: 1}))
+      if (createdCart.payload){
+        Alert.alert('Success', 'Product added to the cart successfully');
+      }else{
+        Alert.alert('Error', 'Failed to add product to the cart');
+      }
+    }
+    catch(error){
+      console.error('Error adding product to the cart:', error);
+      // Display an alert for failure
+      Alert.alert('Error', 'Failed to add product to the cart');
+    }
+
+  }
+
   const renderButtons = () => {
     if (isUser){
       return (
         <View className="flex-col">
           <Button
             title="Add to Cart"
-            onPress={() => dispatch(deleteProductAsync(product.id))}
-          />
-          <Button
-            title="Buy"
-            onPress={() => handleUpdate()}
+            className="rounded-full"
+            onPress={() => addCart()}
           />
         </View>
       )
@@ -73,7 +88,7 @@ const ProductCard = ({ product }) => {
           <View className="">
             <Text className="text-sm font-medium">Stock: {product.stock}</Text>
           </View>
-          <View className="flex-col">
+          <View className="flex-col items-center justify-center">
             {renderButtons()}
           </View>
         </View>

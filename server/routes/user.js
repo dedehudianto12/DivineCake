@@ -7,7 +7,6 @@ const cart_controller = require("../controller/cartController")
 const transaction_controller = require("../controller/transactionController")
 const review_controller = require("../controller/reviewController")
 const {authenticate, authorizeCart, authorizeReview} = require("..//middleware/auth")
-const { route } = require('./admin')
 const router = express.Router()
 
 router.post('/register', user_controller.create)
@@ -21,6 +20,8 @@ router.get("/product/:id", product_controller.find_by_id)
 router.post("/cart", cart_controller.create)
 
 router.get("/cart", cart_controller.find_cart)
+
+router.get("/transaction", transaction_controller.find_by_user)
 
 router.use("/cart/:id", authorizeCart)
 

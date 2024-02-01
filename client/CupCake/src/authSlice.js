@@ -13,7 +13,6 @@ const authSlice = createSlice({
   },
   reducers: {
     loginUser: (state, action) => {
-      console.log("masukkk")
       const { user, userType } = action.payload;
       state.user = user;
       state.userType = userType;
@@ -32,6 +31,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder)=>{
     builder
+    // Login
     .addCase(loginUserAsync.pending, (state)=>{
       state.loading = true
       state.user = null
@@ -48,7 +48,9 @@ const authSlice = createSlice({
     .addCase(loginUserAsync.rejected, (state, action)=>{
       state.loading = false
       state.user = null
-      state.error  = action.error.message
+      if (action.error.message == "Request failed with status code 404"){
+        state.error  = "Invalid email/password"
+      }
     })
   }
 });
@@ -62,7 +64,19 @@ export const loginUserAsync = createAsyncThunk("user/loginUser", async (credenti
   await AsyncStorage.setItem('token', access_token);
   await AsyncStorage.setItem('userType', userType);
   return response.data
-  
 })
+
+export const registerUserAsync = createAsyncThunk(
+  'user/registerUser',
+  async (userData, { rejectWithValue }) => {
+    console.log(userData)
+    const response = await axios.post('http://192.168.0.104:3000/users/register', userData);
+    console.log("hue hue", response.data)
+    const { access_token, userType } = response.data;
+    await AsyncStorage.setItem('token', access_token);
+    await AsyncStorage.setItem('userType', userType);
+    return response.data;
+  }
+);
 
 export default authSlice.reducer;

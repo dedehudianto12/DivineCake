@@ -6,7 +6,7 @@ import { fetchTransactionAsync, updateTransactionSuccess } from '../src/transact
 import TransactionCard from '../components/TransactionCard';
 
 const AdminTransactionPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const transactions = useSelector((state) => state.transactions.transactions);
   const loading = useSelector((state) => state.products.loading);
   const error = useSelector((state) => state.products.error);
@@ -29,7 +29,6 @@ const AdminTransactionPage = () => {
   };
 
   const handleTransactionUpdate = (updatedTransaction) => {
-    console.log("kiki", updatedTransaction)
     dispatch(updateTransactionSuccess(updatedTransaction));
   };
 
@@ -38,7 +37,6 @@ const AdminTransactionPage = () => {
   return (
     <ScrollView>
       <View>
-        <Text className="text-center text-lg font-bold">Transaction Page</Text>
         <Picker selectedValue={filter} onValueChange={(itemValue) => handleFilterChange(itemValue)}>
           <Picker.Item label="All" value="all" />
           <Picker.Item label="Pending" value="pending" />

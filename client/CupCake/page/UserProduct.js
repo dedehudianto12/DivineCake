@@ -20,13 +20,8 @@ const UserProductPage = () =>{
       return <Text>Loading products...</Text>;
     }
 
-    console.log(products)
-
     return (
       <View>
-        <Text className="text-center text-lg font-bold">
-          Product
-        </Text>
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

@@ -5,8 +5,9 @@ import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateTransactionAsync } from '../src/transactionSlice';
 import { updateProductStocks } from '../src/productSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const TransactionCard = ({ transaction, onUpdate }) => {
+const TransactionCard = ({ transaction, onUpdate, userType }) => {
   const dispatch = useDispatch()
   const { id, orderDate, status, totalAmount, User, items } = transaction;
   const products = useSelector((state) => state.products.products);
@@ -61,18 +62,40 @@ const TransactionCard = ({ transaction, onUpdate }) => {
         ))}
       </View>
       <View className="flex flex-row justify-around mt-4">
-          {transaction.status === "pending" && (
-            <>
-              <Button title="Approve" onPress={()=> handleApprove("processing")} />
-              <Button title="Reject" onPress={()=>handleReject("canceled")} />
-            </>
-          )}
-          {(transaction.status === "processing") && (
-            <>
-              <Button title="Complete" onPress={()=>handleApprove("completed")} />
-              <Button title="Reject" onPress={()=>handleReject("canceled")} />
-            </>
-          )}
+        {userType === "user" ? (
+          <>
+            {transaction.status === "pending" && (
+              <>
+                <Text>Silahkan melakukan pembayaran, jika sudah mohon konfirmasi melalui WA di nomor 085963120985</Text>
+              </>
+            )}
+            {transaction.status === "processing" && (
+              <>
+                <Text>Pesanan sedang di proses</Text>
+              </>
+            )}
+            {transaction.status === "completed" && (
+              <>
+                <Text>Pesanan sedang diantar</Text>
+              </>
+            )}
+          </>
+        ) : (
+          <>
+            {transaction.status === "pending" && (
+              <>
+                <Button title="Approve" onPress={() => handleApprove("processing")} />
+                <Button title="Reject" onPress={() => handleReject("canceled")} />
+              </>
+            )}
+            {transaction.status === "processing" && (
+              <>
+                <Button title="Complete" onPress={() => handleApprove("completed")} />
+                <Button title="Reject" onPress={() => handleReject("canceled")} />
+              </>
+            )}
+          </>
+        )}
       </View>
     </View>
   );

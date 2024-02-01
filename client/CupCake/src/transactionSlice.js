@@ -52,11 +52,13 @@ const transactionSlice = createSlice({
     }
 })
 
+
 export const fetchTransactionAsync = createAsyncThunk(
     "transaction/fetchTransaction",
     async () => {
         const token = await AsyncStorage.getItem('token')
-        const response = await axios.get('http://192.168.0.104:3000/admins/transaction', {
+        const userType = await AsyncStorage.getItem("userType")
+        const response = await axios.get(`http://192.168.0.104:3000/${userType}s/transaction`, {
             headers : {
                 access_token: token
             }

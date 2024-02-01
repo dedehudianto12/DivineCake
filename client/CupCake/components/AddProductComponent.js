@@ -10,7 +10,6 @@ const AddProductScreen = ({ navigation }) => {
   const [productPrice, setProductPrice] = useState('');
   const [productImage, setProductImage] = useState(null);
   const [productStock, setProductStock] = useState('')
-  const [productCategory, setProductCategory] = useState('')
   const dispatch = useDispatch()
   const formData = new FormData();
 
@@ -32,7 +31,6 @@ const AddProductScreen = ({ navigation }) => {
     formData.append('description', productDescription);
     formData.append('price', productPrice);
     formData.append('stock', productStock);
-    formData.append('category_id', productCategory);
 
     if (productImage) {
         formData.append('image', {
@@ -80,12 +78,6 @@ const AddProductScreen = ({ navigation }) => {
             value={productStock}
             onChangeText={(text) => setProductStock(text)}
             keyboardType="decimal-pad"
-          />
-          <TextInput
-            className="border rounded p-2 w-5/6 mb-4"
-            placeholder="Category"
-            value={productCategory}
-            onChangeText={(text) => setProductCategory(text)}
           />
           <Button title="Choose Image" onPress={openImagePicker} />
           {productImage && <Image source={{ uri: productImage }} style={{ width: 200, height: 200, marginTop: 10 }} />}

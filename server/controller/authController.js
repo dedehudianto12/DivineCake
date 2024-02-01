@@ -30,10 +30,10 @@ class AuthController {
             userType: 'admin',
           });
         } else {
-          return next({ message: 'Invalid email/password' });
+          return res.status(404).json({ payload: "hehe", message: 'email/password incorrect' });
         }
       } else {
-        return next({ message: 'Invalid email/password' }); // Handle invalid password for user
+        return res.status(404).json({ message: 'email/password incorrect' });
       }
     } catch (error) {
       next(error);

@@ -12,7 +12,7 @@ class ProductController{
             image: imageUrl,
             stock: req.body.stock,
             price: req.body.price,
-            category_id: req.body.category_id
+            category_id: 1
         }
         
         Product.create(product)

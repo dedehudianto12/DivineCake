@@ -9,6 +9,7 @@ import MenuPage from "../page/MenuPage"
 import AdminPage from '../page/AdminPage';
 import AddProductScreen from '../components/AddProductComponent';
 import UpdateProductScreen from "../components/UpdateProductComponent"
+import RegisterComponent from '../components/RegisterCompenent';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,21 +23,21 @@ const AuthNavigator = () => {
           <>
             {isAdmin ? (
               <>
-                <Stack.Screen name="Admin" component={AdminPage}/>
+                <Stack.Screen name="Admin" component={AdminPage} options={{ headerShown: false }}/>
                 <Stack.Screen name="AddProduct" component={AddProductScreen} />
                 <Stack.Screen name="UpdateProduct" component={UpdateProductScreen}/>
               </>
             ) : (
               <>
-                <Stack.Screen name="Menu" component={MenuPage} />
+                <Stack.Screen name="Menu" component={MenuPage} options={{ headerShown: false }} />
               </>
             )
           }
           </>
         ) : (
           <>
-            <Stack.Screen name="Login" component={LoginComponent} />
-            {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
+            <Stack.Screen name="Login" component={LoginComponent} options={{ headerShown: false }}/>
+            <Stack.Screen name="Register" component={RegisterComponent} options={{ headerShown: false }}/>
           </>
         )}
       </Stack.Navigator>
